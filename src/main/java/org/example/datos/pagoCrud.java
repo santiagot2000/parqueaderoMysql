@@ -33,4 +33,55 @@ public class pagoCrud {
             e.printStackTrace();
         }
     }
+    //consultar pago
+    public void consultarPago(int id) {
+        String sql = "SELECT * FROM pago WHERE id = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println("Pago encontrado:");
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Nro Placa: " + rs.getString("nroplaca"));
+                System.out.println("ID Propietario: " + rs.getString("idprop"));
+                System.out.println("Fecha: " + rs.getDate("fecha"));
+                System.out.println("Valor: " + rs.getInt("valor"));
+            } else {
+                System.out.println("Pago no encontrado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // Eliminar pago
+    public void eliminarPago(int id) {
+        String sql = "DELETE FROM pago WHERE id = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            System.out.println("Pago eliminado.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // listar pagos
+    public void listarPagos() {
+        String sql = "SELECT * FROM pago";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Nro Placa: " + rs.getString("nroplaca"));
+                System.out.println("ID Propietario: " + rs.getString("idprop"));
+                System.out.println("Fecha: " + rs.getDate("fecha"));
+                System.out.println("Valor: " + rs.getInt("valor"));
+                System.out.println("-----------------------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -31,4 +31,62 @@ public class propietarioCrud {
             e.printStackTrace();
         }
     }
+    public void consultarPropietario(String idprop) {
+        String sql = "SELECT * FROM propietario WHERE idprop = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idprop);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println("Propietario encontrado:");
+                System.out.println("ID Propietario: " + rs.getString("idprop"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Telefono: " + rs.getString("telefono"));
+            } else {
+                System.out.println("Propietario no encontrado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // Actualizar propietario
+    public void actualizarPropietario(propietario propetario) {
+        String sql = "UPDATE propietario SET nombre = ?, telefono = ? WHERE idprop = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, propetario.getNombre());
+            stmt.setString(2, propetario.getTelefono());
+            stmt.setString(3, propetario.getIdprop());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // Eliminar propietario
+    public void eliminarPropietario(String idprop) {
+        String sql = "DELETE FROM propietario WHERE idprop = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, idprop);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // Consultar todos los propietarios
+    public void consultarTodosPropietarios() {
+        String sql = "SELECT * FROM propietario";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                System.out.println("ID Propietario: " + rs.getString("idprop"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Telefono: " + rs.getString("telefono"));
+                System.out.println("-----------------------------");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
