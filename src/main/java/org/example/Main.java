@@ -1,6 +1,8 @@
 package org.example;
 
 import org.example.datos.vehiculoCrud;
+import org.example.modelo.vehiculo;
+
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -30,6 +32,30 @@ public class Main {
                     System.out.println("6. Finalizar");
                     System.out.print("\n opcion: ");
                     opcion = sc.nextInt();
+                    sc.nextLine(); // se obliga a necInt a hacer un salto de linea o enter
+                    switch (opcion){
+                        case 1:
+                            // Peticion de los datos del vehiculo
+                            System.out.println("Agregar vehiculo");
+                            System.out.print("Ingrese el numero de placa: ");
+                            String anroplaca = sc.nextLine();
+                            System.out.print("Ingrese la marca: ");
+                            String amarca = sc.nextLine();
+                            System.out.print("Ingrese el precio: ");
+                            int aprecio = sc.nextInt();
+                            // Invocar al metodo para agregar vehiculo
+                            ovh.agregarVehiculo(new vehiculo(anroplaca, amarca, aprecio));
+                            System.out.println("Vehiculo agregado correctamente...");
+                            break;
+                        case  2:
+                            // Peticion de los datos del vehiculo
+                            System.out.println("Consultar vehiculo por placa");
+                            System.out.print("Ingrese el numero de placa: ");
+                            String cnroplaca = sc.nextLine();
+                            // Invocar al metodo para consultar vehiculo
+                            ovh.consultarVehiculo(cnroplaca);
+                            break;
+                    }
                 }
                 while (opcion !=6);
             }
