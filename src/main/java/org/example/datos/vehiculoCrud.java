@@ -2,10 +2,9 @@ package org.example.datos;
 
 import org.example.modelo.vehiculo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class vehiculoCrud {
     //credenciales para tener acceso a mysql y la BD dbparquea
@@ -39,7 +38,7 @@ public class vehiculoCrud {
             var rs = stmt.executeQuery();
             if (rs.next()) {
                 System.out.println("Vehiculo encontrado:");
-                System.out.println("Nro Placa: " + rs.getString("nroplaca"));
+                System.out.println("Numero de Placa: " + rs.getString("nroplaca"));
                 System.out.println("Marca: " + rs.getString("marca"));
                 System.out.println("Precio: " + rs.getInt("precio"));
             } else {
@@ -62,5 +61,37 @@ public class vehiculoCrud {
             e.printStackTrace();
         }
     }
+    // Eliminar vehiculo
+    public void eliminarVehiculo(String cnroplaca) {
+        String sql = "DELETE FROM vehiculo WHERE nroplaca = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cnroplaca);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // Listar vehiculos
+    public List<vehiculo> listarVehiculos() {
+        List<vehiculo> vehiculos = new ArrayList<vehiculo>();
+        String sql = "SELECT * FROM vehiculo";
+
+        try (Connection conn = conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                vehiculo vehiculo = new vehiculo(
+                        rs.getString("nroplaca"),
+                        rs.getString("marca"),
+                        rs.getInt("precio")
+                );
+                vehiculos.add(vehiculo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehiculos;
+    }
 }
+
+
 

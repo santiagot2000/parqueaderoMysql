@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.datos.propietarioCrud;
 import org.example.datos.vehiculoCrud;
 import org.example.modelo.vehiculo;
 
@@ -14,6 +15,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         // Generar la coneccion al servidor y su base de datos
         vehiculoCrud ovh = new vehiculoCrud();
+        propietarioCrud op = new propietarioCrud();
         // Definir variable de tipo connection
         Connection cnx = null;
         try {
@@ -32,7 +34,7 @@ public class Main {
                     System.out.println("6. Finalizar");
                     System.out.print("\n opcion: ");
                     opcion = sc.nextInt();
-                    sc.nextLine(); // se obliga a necInt a hacer un salto de linea o enter
+                    sc.nextLine(); // se obliga a nexInt a hacer un salto de linea o enter
                     switch (opcion){
                         case 1:
                             // Peticion de los datos del vehiculo
@@ -54,6 +56,36 @@ public class Main {
                             String cnroplaca = sc.nextLine();
                             // Invocar al metodo para consultar vehiculo
                             ovh.consultarVehiculo(cnroplaca);
+                            break;
+                        case 3:
+                            // Peticion de los datos del vehiculo
+                            System.out.println("Actualizar vehiculo");
+                            System.out.print("Ingrese el numero de placa: ");
+                            String unroplaca = sc.nextLine();
+                            System.out.print("Ingrese la nueva marca: ");
+                            String umarca = sc.nextLine();
+                            System.out.print("Ingrese el nuevo precio: ");
+                            int uprecio = sc.nextInt();
+                            // Invocar al metodo para actualizar vehiculo
+                            ovh.actualizarVehiculo(new vehiculo(unroplaca, umarca, uprecio));
+                            System.out.println("Vehiculo actualizado correctamente...");
+                            break;
+                        case 4:
+                            // Peticion de los datos del vehiculo
+                            System.out.println("Eliminar vehiculo");
+                            System.out.print("Ingrese el numero de placa: ");
+                            String dnrplaca = sc.nextLine();
+                            // Invocar al metodo para eliminar vehiculo
+                            ovh.eliminarVehiculo(dnrplaca);
+                            System.out.println("Vehiculo eliminado correctamente...");
+                            break;
+                        case 5:
+                            // Invocar al metodo para listar vehiculos
+                            System.out.println("Listar vehiculos");
+                            ovh.listarVehiculos();
+                            break;
+                        case 6:
+                            System.out.println("Saliendo del programa...");
                             break;
                     }
                 }
