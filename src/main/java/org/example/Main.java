@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.datos.vehiculoCrud;
-
+import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -9,6 +9,7 @@ import java.sql.SQLException;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         // Generar la coneccion al servidor y su base de datos
         vehiculoCrud ovh = new vehiculoCrud();
         // Definir variable de tipo connection
@@ -27,6 +28,8 @@ public class Main {
                     System.out.println("4. Eliminar");
                     System.out.println("5. Listar vehiculos");
                     System.out.println("6. Finalizar");
+                    System.out.print("\n opcion: ");
+                    opcion = sc.nextInt();
                 }
                 while (opcion !=6);
             }
