@@ -106,19 +106,19 @@ public class Main {
                                 System.out.println("4. Eliminar propietario");
                                 System.out.println("5. Listar propietarios");
                                 System.out.println("6. Volver al menú principal");
-                                System.out.print("Seleccione una opción: ");
+                                System.out.print("\n Seleccione una opción: ");
                                 opcionProp = sc.nextInt();
                                 sc.nextLine(); // limpiar buffer
 
                                 switch (opcionProp) {
                                     case 1:
                                         System.out.print("Ingrese ID del propietario: ");
-                                        String idprop = sc.nextLine();
+                                        String aidprop = sc.nextLine();
                                         System.out.print("Ingrese nombre del propietario: ");
-                                        String nombre = sc.nextLine();
+                                        String anombre = sc.nextLine();
                                         System.out.print("Ingrese teléfono del propietario: ");
-                                        String telefono = sc.nextLine();
-                                        propietario prop = new propietario(idprop, nombre, telefono);
+                                        String atelefono = sc.nextLine();
+                                        propietario prop = new propietario(aidprop, anombre, atelefono);
                                         pcrud.agregarPropietario(prop);
                                         System.out.println("✔ Propietario agregado correctamente.");
                                         break;
@@ -176,25 +176,25 @@ public class Main {
                                 System.out.println("3. Eliminar pago");
                                 System.out.println("4. Listar pagos");
                                 System.out.println("5. Volver al menú principal");
-                                System.out.print("Seleccione una opción: ");
+                                System.out.print("\n Seleccione una opción: ");
                                 opcionpago = sc.nextInt();
                                 sc.nextLine(); // Limpiar buffer
 
                                 switch (opcionpago) {
                                     case 1:
                                         System.out.print("Ingrese ID del pago: ");
-                                        int id = sc.nextInt();
+                                        int pid = sc.nextInt();
                                         sc.nextLine();
                                         System.out.print("Ingrese nro de placa: ");
-                                        String nroplaca = sc.nextLine();
+                                        String pnroplaca = sc.nextLine();
                                         System.out.print("Ingrese ID del propietario: ");
-                                        String idprop = sc.nextLine();
+                                        String pidprop = sc.nextLine();
                                         System.out.print("Ingrese fecha (yyyy-MM-dd): ");
                                         String fechaStr = sc.nextLine();
-                                        LocalDate fecha = LocalDate.parse(fechaStr);
+                                        LocalDate pfecha = LocalDate.parse(fechaStr);
                                         System.out.print("Ingrese valor del pago: ");
-                                        int valor = sc.nextInt();
-                                        pago pagoNuevo = new pago(id, nroplaca, idprop, fecha, valor);
+                                        int pvalor = sc.nextInt();
+                                        pago pagoNuevo = new pago(pid, pnroplaca, pidprop, pfecha, pvalor);
                                         pcr.agregarPago(pagoNuevo);
                                         System.out.println("✔ Pago agregado correctamente.");
                                         break;
@@ -229,6 +229,8 @@ public class Main {
 
                             } while (opcionpago != 5);
                             break;
+                        default:
+                            System.out.println("Opción inválida.");
                     }
                 }
                 while (opcion !=8);
