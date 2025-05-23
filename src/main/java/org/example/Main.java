@@ -15,8 +15,20 @@ public class Main {
         Connection cnx = null;
         try {
             cnx = ovh.conectar();
-            if (cnx != null && !cnx.isClosed()) {
-                System.out.println("Coneccion a la base de datos, Exitosa");
+            if (cnx != null && !cnx.isClosed()) {// credenciales correctas
+                //System.out.println("Coneccion a la base de datos, Exitosa");
+                // Menu para CRUD vehiculo
+                Integer opcion = 0;
+                do {
+                    System.out.println("\n CRUD de vehiculo \n");
+                    System.out.println("1. Agregar vehiculo");
+                    System.out.println("2. Consultar por placa");
+                    System.out.println("3. Actualizar");
+                    System.out.println("4. Eliminar");
+                    System.out.println("5. Listar vehiculos");
+                    System.out.println("6. Finalizar");
+                }
+                while (opcion !=6);
             }
         }
         catch (SQLException e){
