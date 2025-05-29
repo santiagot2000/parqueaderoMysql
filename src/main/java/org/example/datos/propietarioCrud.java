@@ -20,7 +20,7 @@ public class propietarioCrud {
     // Metodos para el CRUD de propietario
     // Agregar propietario
     public void agregarPropietario(propietario propetario) {
-        String sql = "INSERT INTO vehiculo (idprop, nombre, telefono) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO propietario (idprop, nombre, telefono) VALUES (?, ?, ?)";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, propetario.getIdprop());

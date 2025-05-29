@@ -8,6 +8,8 @@ import org.example.modelo.propietario;
 import org.example.modelo.vehiculo;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -183,17 +185,47 @@ public class Main {
                                 switch (opcionpago) {
                                     case 1:
                                         System.out.print("Ingrese ID del pago: ");
-                                        int pid = sc.nextInt();
-                                        sc.nextLine();
+                                        int pid = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para pid
+                                            pid = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el ID del pago.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        sc.nextLine(); // Consumir el salto de línea
+
                                         System.out.print("Ingrese nro de placa: ");
                                         String pnroplaca = sc.nextLine();
                                         System.out.print("Ingrese ID del propietario: ");
                                         String pidprop = sc.nextLine();
-                                        System.out.print("Ingrese fecha (yyyy-MM-dd): ");
-                                        String fechaStr = sc.nextLine();
-                                        LocalDate pfecha = LocalDate.parse(fechaStr);
+
+                                        LocalDate pfecha = null; // Inicializar fecha como null
+                                        boolean fechaValida = false;
+                                        while (!fechaValida) {
+                                            System.out.print("Ingrese fecha (yyyy-MM-dd): ");
+                                            String fechaStr = sc.nextLine(); // Leer como String
+
+                                            try {
+                                                pfecha = LocalDate.parse(fechaStr); // Intentar parsear
+                                                fechaValida = true; // Si llega aquí, es válido
+                                            } catch (DateTimeParseException e) {
+                                                System.out.println("Formato de fecha incorrecto. Por favor, ingrese la fecha en formato YYYY-MM-DD (ej. 2024-05-28).");
+                                                // El bucle seguirá pidiendo la fecha
+                                            }
+                                        }
+
                                         System.out.print("Ingrese valor del pago: ");
-                                        int pvalor = sc.nextInt();
+                                        int pvalor = 0; // Inicializar a 0 para el caso de error
+                                        try { // Manejo de InputMismatchException para pvalor
+                                            pvalor = sc.nextInt();
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Error: Ingrese un número válido para el valor del pago.");
+                                            sc.nextLine(); // Consumir la entrada incorrecta
+                                            break; // Salir de este caso y volver al menú de pago
+                                        }
+                                        sc.nextLine(); // Consumir el salto de línea
+
                                         pago pagoNuevo = new pago(pid, pnroplaca, pidprop, pfecha, pvalor);
                                         pcr.agregarPago(pagoNuevo);
                                         System.out.println("✔ Pago agregado correctamente.");
@@ -221,7 +253,7 @@ public class Main {
                                         pcr.listarPagos();
                                         break;
                                     case 5:
-                                        System.out.println("↩ Volviendo al menú principal...");
+                                        System.out.println(" Volviendo al menú principal...");
                                         break;
                                     default:
                                         System.out.println("Opción inválida.");
@@ -229,8 +261,6 @@ public class Main {
 
                             } while (opcionpago != 5);
                             break;
-                        default:
-                            System.out.println("Opción inválida.");
                     }
                 }
                 while (opcion !=8);

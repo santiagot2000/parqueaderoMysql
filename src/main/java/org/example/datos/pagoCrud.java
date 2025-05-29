@@ -20,7 +20,7 @@ public class pagoCrud {
     // Metodos para el CRUD de pago
     // Agregar pago
     public void agregarPago(pago pago) {
-        String sql = "INSERT INTO vehiculo (id, nroplaca, idprop, fecha, valor) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pago (id, nroplaca, idprop, fecha, valor) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, pago.getId());

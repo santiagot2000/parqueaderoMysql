@@ -77,14 +77,13 @@ public class vehiculoCrud {
         List<vehiculo> vehiculos = new ArrayList<vehiculo>();
         String sql = "SELECT * FROM vehiculo";
 
-        try (Connection conn = conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            var rs = stmt.executeQuery();
             while (rs.next()) {
-                vehiculo vehiculo = new vehiculo(
-                        rs.getString("nroplaca"),
-                        rs.getString("marca"),
-                        rs.getInt("precio")
-                );
-                vehiculos.add(vehiculo);
+                System.out.println("Nro Placa: " + rs.getString("nroplaca"));
+                System.out.println("Marca: " + rs.getString("marca"));
+                System.out.println("precio: " + rs.getInt("precio"));
+                System.out.println("-----------------------------");
             }
         } catch (SQLException e) {
             e.printStackTrace();
