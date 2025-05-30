@@ -38,9 +38,10 @@ public class Main {
                     System.out.println("3. Actualizar vehiculo");
                     System.out.println("4. Eliminar vehiculo");
                     System.out.println("5. Listar vehiculos");
-                    System.out.println("6. Finalizar");
-                    System.out.println("7. CRUD de propietario");
-                    System.out.println("8. CRUD de pago");
+                    System.out.println("6. buscar vehiculo por placa");
+                    System.out.println("7. Finalizar");
+                    System.out.println("8. CRUD de propietario");
+                    System.out.println("9. CRUD de pago");
                     System.out.print("\n opcion: ");
                     opcion = sc.nextInt();
                     sc.nextLine(); // se obliga a nexInt a hacer un salto de linea o enter
@@ -71,6 +72,7 @@ public class Main {
                             System.out.println("Actualizar vehiculo");
                             System.out.print("Ingrese el numero de placa: ");
                             String unroplaca = sc.nextLine();
+                            if (!ovh.buscarVehiculoxplaca(unroplaca).isEmpty()){
                             System.out.print("Ingrese la nueva marca: ");
                             String umarca = sc.nextLine();
                             System.out.print("Ingrese el nuevo precio: ");
@@ -78,6 +80,9 @@ public class Main {
                             // Invocar al metodo para actualizar vehiculo
                             ovh.actualizarVehiculo(new vehiculo(unroplaca, umarca, uprecio));
                             System.out.println("Vehiculo actualizado correctamente...");
+                            }else {
+                                System.out.println("numero de placa NO EXISTE. intentelo con otra placa");
+                            }
                             break;
                         case 4:
                             // Peticion de los datos del vehiculo
@@ -94,9 +99,24 @@ public class Main {
                             ovh.listarVehiculos();
                             break;
                         case 6:
-                            System.out.println("Saliendo del programa...");
+                            System.out.print("Numero de placa a buscar: ");
+                            String findnroplaca = sc.nextLine();
+                            //invocar el metodo de buscar vehiculo por placa
+                            if (!ovh.buscarVehiculoxplaca(findnroplaca).isEmpty()){
+                                //recorrer la lista que devolvio el metodo buscarVehiculoxplaca
+                                ovh.buscarVehiculoxplaca(findnroplaca).forEach(vehiculo ->
+                                        System.out.println(vehiculo.getNroplaca()+ "-"+vehiculo.getMarca())
+                                );
+
+                            }else{
+                                System.out.println("numero de placa INEXISTENTE. intentelo con otra pla");
+                            }
                             break;
                         case 7:
+                            System.out.println("Saliendo del programa...");
+                            break;
+
+                        case 8:
                             int opcionProp;
                             propietarioCrud pcrud = new propietarioCrud();
 
@@ -168,7 +188,7 @@ public class Main {
 
                             } while (opcionProp != 6);
                             break;
-                        case 8:
+                        case 9:
                             int opcionpago;
                             pagoCrud pcr = new pagoCrud();
                             do {
@@ -255,7 +275,7 @@ public class Main {
                             break;
                     }
                 }
-                while (opcion !=8);
+                while (opcion !=9);
             }
         }
         catch (SQLException e){

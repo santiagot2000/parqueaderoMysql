@@ -19,7 +19,6 @@ public class vehiculoCrud {
     // Agregar vehiculo
     public void agregarVehiculo(vehiculo vehiculo) {
         String sql = "INSERT INTO vehiculo (nroplaca, marca, precio) VALUES (?, ?, ?)";
-
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, vehiculo.getNroplaca());
             stmt.setString(2, vehiculo.getMarca());
@@ -29,13 +28,11 @@ public class vehiculoCrud {
             e.printStackTrace();
         }
     }
-
     public void consultarVehiculo(String cnroplaca) {
         String sql = "SELECT * FROM vehiculo WHERE nroplaca = ?";
-
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, cnroplaca);
-            var rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 System.out.println("Vehiculo encontrado:");
                 System.out.println("Numero de Placa: " + rs.getString("nroplaca"));
@@ -51,7 +48,6 @@ public class vehiculoCrud {
     // Actualizar vehiculo
     public void actualizarVehiculo(vehiculo vehiculo) {
         String sql = "UPDATE vehiculo SET marca = ?, precio = ? WHERE nroplaca = ?";
-
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, vehiculo.getMarca());
             stmt.setInt(2, vehiculo.getPrecio());
@@ -64,7 +60,6 @@ public class vehiculoCrud {
     // Eliminar vehiculo
     public void eliminarVehiculo(String cnroplaca) {
         String sql = "DELETE FROM vehiculo WHERE nroplaca = ?";
-
         try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, cnroplaca);
             stmt.executeUpdate();
@@ -74,21 +69,43 @@ public class vehiculoCrud {
     }
     // Listar vehiculos
     public List<vehiculo> listarVehiculos() {
-        List<vehiculo> vehiculos = new ArrayList<vehiculo>();
-        String sql = "SELECT * FROM vehiculo";
-
-        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            var rs = stmt.executeQuery();
+        List<vehiculo> buscarVehiculos = new ArrayList<vehiculo>();
+        String query = "SELECT * FROM vehiculo";
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 System.out.println("Nro Placa: " + rs.getString("nroplaca"));
                 System.out.println("Marca: " + rs.getString("marca"));
                 System.out.println("precio: " + rs.getInt("precio"));
-                System.out.println("-----------------------------");
+                System.out.println("---------------------------------");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return vehiculos;
+        return buscarVehiculos;
+    }
+    // Buscar vehiculo por placa
+    public List<vehiculo> buscarVehiculoxplaca(String nroplaca) {
+        List<vehiculo> lbuscarplaca = new ArrayList<>();
+        //declara una loista para ser trtornada y contendra
+        String query = "SELECT nroplaca, marca, precio FROM vehiculo WHERE nroplaca = ?";
+
+        try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nroplaca);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                vehiculo vh = new vehiculo(
+                        rs.getString("nroplaca"),
+                        rs.getString("marca"),
+                        rs.getInt("precio")
+                );
+                //agregar el vehiculo a la lista
+                lbuscarplaca.add(vh);
+            }
+        } catch (SQLException eror) {
+            eror.printStackTrace();
+        }
+        return lbuscarplaca;
     }
 }
 
